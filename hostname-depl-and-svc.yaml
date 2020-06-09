@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: hostname-deployment
+    labels:
+        app: hostname
+spec:
+    replicas: 3
+    template:
+        metadata:            
+            labels:
+                app: hostname
+        spec:
+            containers:
+            - name: hostname
+              image: lorenzomarino94/hostnameserver
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: hostname
+spec:
+    type: NodePort
+    selector:
+        app: hostname
+    ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30007
